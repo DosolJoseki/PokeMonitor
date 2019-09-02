@@ -4,12 +4,13 @@ import com.home.joseki.pokemonitor.model.Pokemon
 import com.home.joseki.pokemonitor.model.Pokemons
 import io.reactivex.Observable
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface IPokeApi {
-    @GET("pokemon/bulbasaur")
+    @GET("pokemon/{name}")
     fun getPokemonInfo(
-        @Query("name") name: String
+        @Path("name") name: String
     ): Observable<Pokemon>
 
     @GET("pokemon")

@@ -14,5 +14,5 @@ class PokemonInteractor @Inject constructor(
     override val onPokemonUpdating: PublishSubject<Boolean> = PublishSubject.create()
 
     override fun getPokemons(offset: String): Observable<Pokemons> = pokemonRepositoriy.getPokemons(offset)
-    override fun getPokemonInfo(name: String): Observable<Pokemon> = pokemonRepositoriy.getPokemonInfo("bulbasaur")
+    override fun getPokemonInfo(name: String): Observable<Pokemon> = pokemonRepositoriy.getPokemonInfo(name)
 }

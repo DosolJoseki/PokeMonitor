@@ -2,9 +2,7 @@ package com.home.joseki.pokemonitor.repositories
 
 import com.home.joseki.pokemonitor.model.Pokemon
 import com.home.joseki.pokemonitor.model.Pokemons
-import com.home.joseki.pokemonitor.model.Results
 import com.home.joseki.pokemonitor.web.api.IPokeApi
-import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
@@ -26,8 +24,16 @@ class PokemonRepositoriy(
 
         return pokeApi.getPokemons(offset, LIMIT_PER_SHEET)
             .subscribeOn(Schedulers.io())
-            .flatMap { getPokemonInfos(it) }
-            .doOnNext { results.add(it) }
+            .flatMap {poke ->
+                Observable.fromIterable(poke.results)
+                .flatMap {result ->
+                    pokeApi.getPokemonInfo(result.name)
+                 }
+            }
+            .doOnNext {
+                results.add(it)
+            }
+            .doOnComplete { it }
             .flatMap { pokeApi.getPokemons(offset, LIMIT_PER_SHEET) }
     }
 
