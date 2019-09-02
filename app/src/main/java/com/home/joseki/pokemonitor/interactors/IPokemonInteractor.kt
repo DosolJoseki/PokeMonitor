@@ -10,4 +10,5 @@ interface IPokemonInteractor {
     val onPokemonUpdating: PublishSubject<Boolean>
 
     fun getPokemons(offset: String): Observable<Pokemons>
+    fun getPokemonInfo(name: String): Observable<Pokemon>
 }

@@ -1,6 +1,5 @@
 package com.home.joseki.pokemonitor.di.view.fragments.main
 
-import io.reactivex.Observable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +28,11 @@ class MainFragment: Fragment() {
         return view
     }
 
-    fun setPokemons(pokemons: Observable<Pokemons>){
+    fun setPokemons(pokemons: Pokemons){
+        //TODO
+    }
 
+    fun showUpdateProgress(boolean: Boolean){
+        //TODO
     }
 }

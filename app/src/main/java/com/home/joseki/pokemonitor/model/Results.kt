@@ -8,6 +8,7 @@ data class Results(
     @SerializedName("url")
     val url: String = ""
 ) {
+    var pokemon: Pokemon? = null
     //override fun toString(): String {
     //    return "ClassPojo [name = $name, url = $url]"
     //}

@@ -7,12 +7,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface IPokeApi {
-    @GET("pokemon")
+    @GET("pokemon/bulbasaur")
     fun getPokemonInfo(
-        @Query("lat") lat: String,
-        @Query("lon") lon: String,
-        @Query("units") units: String,
-        @Query("appid") appid: String
+        @Query("name") name: String
     ): Observable<Pokemon>
 
     @GET("pokemon")
