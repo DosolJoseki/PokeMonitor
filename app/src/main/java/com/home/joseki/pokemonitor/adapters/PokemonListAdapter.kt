@@ -1,7 +1,5 @@
 package com.home.joseki.pokemonitor.adapters
 
-
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +10,15 @@ import com.home.joseki.pokemonitor.R
 import com.home.joseki.pokemonitor.model.Pokemon
 import com.squareup.picasso.Picasso
 import com.home.joseki.pokemonitor.adapters.PokemonListAdapter.PokemonViewHolder
+import com.home.joseki.pokemonitor.model.Types
 import io.reactivex.subjects.PublishSubject
+import java.lang.StringBuilder
 
 
 class PokemonListAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
+    companion object{
+        private const val STARTING_INDEX = 2
+    }
 
     private val items: ArrayList<Pokemon> = ArrayList()
 
@@ -23,6 +26,11 @@ class PokemonListAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
 
     fun setItems(i: ArrayList<Pokemon>) {
         items.clear()
+        items.addAll(i)
+        notifyDataSetChanged()
+    }
+
+    fun addItems(i: ArrayList<Pokemon>){
         items.addAll(i)
         notifyDataSetChanged()
     }
@@ -41,10 +49,27 @@ class PokemonListAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
             val pokemonPicture = itemView.findViewById<ImageView>(R.id.ivPokemonImage)
 
             pokemonName.text = pokemon.name
-            pokemonType.text = pokemon.height
+            pokemonType.text = getTypes(pokemon.types)
             Picasso.get().load(pokemon.sprites!!.frontDefault).into(pokemonPicture)
         }
     }
 
     override fun getItemCount(): Int = items.size
+
+    private fun getTypes(listtypes: List<Types>?): String {
+        if (listtypes == null) {
+            return ""
+        }
+
+        val stringBuilder = StringBuilder()
+
+        for (types: Types in listtypes) {
+            types.type?.let {
+                stringBuilder.append(", ")
+                stringBuilder.append(types.type.name)
+            }
+        }
+
+        return stringBuilder.toString().substring(STARTING_INDEX)
+    }
 }

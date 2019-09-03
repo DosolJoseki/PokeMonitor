@@ -10,7 +10,7 @@ data class Pokemon(
     @SerializedName("base_experience")
     val baseExperience: String = "",
     @SerializedName("held_items")
-    val heldItems: List<String>? = null,
+    val heldItems: List<HeldItems>? = null,
     @SerializedName("weight")
     val weight: String = "",
     @SerializedName("is_default")

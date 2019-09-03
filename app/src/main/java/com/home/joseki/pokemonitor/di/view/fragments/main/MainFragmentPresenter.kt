@@ -1,29 +1,54 @@
 package com.home.joseki.pokemonitor.di.view.fragments.main
 
-import io.reactivex.Observable
+import com.home.joseki.pokemonitor.di.view.navigation.Screens
 import com.home.joseki.pokemonitor.interactors.IPokemonInteractor
-import com.home.joseki.pokemonitor.model.Pokemons
+import com.home.joseki.pokemonitor.model.Pokemon
 import io.reactivex.android.schedulers.AndroidSchedulers
+import ru.terrakok.cicerone.Router
+import timber.log.Timber
+import javax.inject.Inject
 
-class MainFragmentPresenter(
-    val pokemonInteractor: IPokemonInteractor,
-    val view: MainFragment
+class MainFragmentPresenter @Inject constructor(
+    val view: MainFragment,
+    private val router: Router,
+    private val pokemonInteractor: IPokemonInteractor
 ) {
+    private var offset = 0
 
-    companion object {
-        private const val OFFSET_START_POSITION = "0"
-        private lateinit var pokemons: Pokemons
+    fun initiate(){
+        getPokemons(offset)
     }
 
-    init {
-        pokemonInteractor.getPokemons(OFFSET_START_POSITION)
+    fun onPokemonSelected(pokemon: Pokemon){
+        router.navigateTo(Screens.PokemonInfoScreen(pokemon))
+    }
+
+    fun onRecyclerReachedLastElement(){
+        offset += 30
+        getPokemons(offset)
+    }
+
+    fun onRefreshing(){
+        offset = 0
+        getPokemons(offset)
+    }
+
+    private fun getPokemons(pos: Int){
+        pokemonInteractor.getPokemons(pos.toString())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                pokemons = it
-                //view.showUpdateProgress(false)
-                //view.setPokemons(it)
-            }
+            .subscribe(
+                {
+                    if(pos == 0){
+                        view.setPokemons(it)
+                    } else {
+                        view.addPokemons(it)
+                    }
+                    view.showUpdateProgress(false)
+                },
+                {
+                    Timber.e(it)
+                }
+            )
+        view.showUpdateProgress(true)
     }
-
-    fun onPokemonSelected(): Observable<Pokemons> = pokemonInteractor.getPokemons("")
 }

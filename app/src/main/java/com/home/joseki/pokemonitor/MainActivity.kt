@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.home.joseki.pokemonitor.di.Scopes
 import com.home.joseki.pokemonitor.di.view.navigation.MainRouter
-import com.home.joseki.pokemonitor.interactors.IPokemonInteractor
-import com.home.joseki.pokemonitor.model.Pokemon
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
@@ -13,6 +11,11 @@ import toothpick.Toothpick
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+    override fun onBackPressed() {
+        super.onBackPressed()
+        presenter.onBackPressed()
+    }
+
     private lateinit var presenter: MainActivityPresenter
 
     @Inject
@@ -28,15 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val scope = Toothpick.openScope(Scopes.APP)
         Toothpick.inject(this, scope)
-        presenter = MainActivityPresenter(this, scope.getInstance(MainRouter::class.java),scope.getInstance(IPokemonInteractor::class.java))
-    }
-
-    fun onPokemonSelected(pokemon: Pokemon){
-
-    }
-
-    fun showUpdateProgress(boolean: Boolean){
-
+        presenter = MainActivityPresenter(scope.getInstance(MainRouter::class.java))
     }
 
     override fun onResume() {
@@ -47,5 +42,10 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         navigatorHolder.removeNavigator()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 }
