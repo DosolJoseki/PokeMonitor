@@ -108,4 +108,9 @@ class MainFragment: Fragment() {
     fun showUpdateProgress(boolean: Boolean){
         updateProgress.isRefreshing = boolean
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+    }
 }

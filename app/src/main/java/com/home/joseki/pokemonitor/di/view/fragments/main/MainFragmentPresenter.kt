@@ -7,6 +7,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import ru.terrakok.cicerone.Router
 import timber.log.Timber
 import javax.inject.Inject
+import io.reactivex.disposables.CompositeDisposable
+
+
 
 class MainFragmentPresenter @Inject constructor(
     val view: MainFragment,
@@ -18,6 +21,7 @@ class MainFragmentPresenter @Inject constructor(
     }
     private var offset = 0
     private var pokemonCount = 0
+    var compositeDisposable = CompositeDisposable()
 
     fun initiate(){
         getPokemons(offset, false)
@@ -39,16 +43,16 @@ class MainFragmentPresenter @Inject constructor(
 
     fun onButtonClick(){
         if(pokemonCount == 0){
+            compositeDisposable.add(
             pokemonInteractor.getPokemonCount()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        val rnd: Int
-                        pokemonCount = it.count.toInt()
-                        if(pokemonCount >= 30){
-                            rnd = (0..pokemonCount-30).random()
-                            getPokemons(rnd, false)
-                        }
+                .subscribe {
+                    val rnd: Int
+                    pokemonCount = it.count.toInt()
+                    if(pokemonCount >= 30){
+                        rnd = (0..pokemonCount-30).random()
+                        getPokemons(rnd, false)
+                    }
                 })
         } else {
             val rnd: Int
@@ -61,6 +65,7 @@ class MainFragmentPresenter @Inject constructor(
     }
 
     private fun getPokemons(pos: Int, addToList: Boolean){
+        compositeDisposable.add(
         pokemonInteractor.getPokemons(pos.toString())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -74,7 +79,11 @@ class MainFragmentPresenter @Inject constructor(
                 {
                     Timber.e(it)
                 }
-            )
+            ))
         view.showUpdateProgress(true)
+    }
+
+    fun onDestroy(){
+        compositeDisposable.clear()
     }
 }
