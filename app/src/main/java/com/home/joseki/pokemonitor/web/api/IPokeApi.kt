@@ -18,4 +18,9 @@ interface IPokeApi {
         @Query("offset") offset: String,
         @Query("limit") limit: String
     ): Observable<Pokemons>
+
+    @GET("pokemon")
+    fun getPokemonCount(
+        @Query("limit") limit: String
+    ): Observable<Pokemons>
 }

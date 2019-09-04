@@ -7,5 +7,4 @@ data class Item(
     val name: String = "",
     @SerializedName("url")
     val url: String = ""
-) {
-}
+)

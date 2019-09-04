@@ -11,10 +11,14 @@ import io.reactivex.schedulers.Schedulers
 class PokemonRepositoriy(
     private val pokeApi: IPokeApi
 ): IPokemonRepositoriy {
-
     companion object{
         private const val LIMIT_PER_SHEET = "30"
+        private const val LIMIT = "10000"
     }
+
+    override fun getPokemonCount(): Observable<Pokemons> =
+        pokeApi.getPokemonCount(LIMIT)
+            .subscribeOn(Schedulers.io())
 
     override fun getPokemonInfo(name: String): Observable<Pokemon> =
         pokeApi.getPokemonInfo(name)
@@ -26,7 +30,6 @@ class PokemonRepositoriy(
             .flatMap {
                 getPokemonInfos(it)
             }
-            .doOnNext { it }
             .toList()
 
     private fun getPokemonInfos(pokemons: Pokemons): Observable<Pokemon> =

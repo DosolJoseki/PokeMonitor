@@ -7,8 +7,4 @@ data class GameIndices(
     val gameIndex: String = "",
     @SerializedName("version")
     val version: Version? = null
-) {
-    //override fun toString(): String {
-    //    return "ClassPojo [game_index = $game_index, version = $version]"
-    //}
-}
+)

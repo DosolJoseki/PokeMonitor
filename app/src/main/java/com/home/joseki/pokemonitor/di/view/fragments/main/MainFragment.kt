@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.CheckBox
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.home.joseki.pokemonitor.R
 import com.home.joseki.pokemonitor.adapters.PokemonListAdapter
 import com.home.joseki.pokemonitor.di.Scopes
@@ -17,6 +18,7 @@ import com.home.joseki.pokemonitor.interactors.IPokemonInteractor
 import com.home.joseki.pokemonitor.model.Pokemon
 import io.reactivex.disposables.CompositeDisposable
 import toothpick.Toothpick
+import kotlin.collections.ArrayList
 
 class MainFragment: Fragment() {
     private lateinit var presenter: MainFragmentPresenter
@@ -64,6 +66,32 @@ class MainFragment: Fragment() {
 
         if(pokemonAdapter.itemCount == 0){
             presenter.initiate()
+        }
+
+        val floatingActionButton = view.findViewById<FloatingActionButton>(R.id.randomPokemon)
+        floatingActionButton.setOnClickListener {
+            presenter.onButtonClick()
+        }
+
+        val checkHp = view.findViewById<CheckBox>(R.id.cbHp)
+        checkHp.setOnCheckedChangeListener{
+                _,
+                isChecked -> pokemonAdapter.needHPCheck = isChecked
+            pokemonAdapter.notifyPokeItems()
+        }
+
+        val checkAtk = view.findViewById<CheckBox>(R.id.cbAtk)
+        checkAtk.setOnCheckedChangeListener{
+                _,
+                isChecked -> pokemonAdapter.needAtkCheck = isChecked
+            pokemonAdapter.notifyPokeItems()
+        }
+
+        val checkDef = view.findViewById<CheckBox>(R.id.cbDef)
+        checkDef.setOnCheckedChangeListener{
+                _,
+                isChecked -> pokemonAdapter.needDefCheck = isChecked
+            pokemonAdapter.notifyPokeItems()
         }
 
         return view

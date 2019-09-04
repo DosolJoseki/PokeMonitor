@@ -13,10 +13,14 @@ class MainFragmentPresenter @Inject constructor(
     private val router: Router,
     private val pokemonInteractor: IPokemonInteractor
 ) {
+    companion object {
+        private const val ITEMS_PER_SHEET = 30
+    }
     private var offset = 0
+    private var pokemonCount = 0
 
     fun initiate(){
-        getPokemons(offset)
+        getPokemons(offset, false)
     }
 
     fun onPokemonSelected(pokemon: Pokemon){
@@ -24,25 +28,47 @@ class MainFragmentPresenter @Inject constructor(
     }
 
     fun onRecyclerReachedLastElement(){
-        offset += 30
-        getPokemons(offset)
+        offset += ITEMS_PER_SHEET
+        getPokemons(offset, true)
     }
 
     fun onRefreshing(){
         offset = 0
-        getPokemons(offset)
+        getPokemons(offset, false)
     }
 
-    private fun getPokemons(pos: Int){
+    fun onButtonClick(){
+        if(pokemonCount == 0){
+            pokemonInteractor.getPokemonCount()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        val rnd: Int
+                        pokemonCount = it.count.toInt()
+                        if(pokemonCount >= 30){
+                            rnd = (0..pokemonCount-30).random()
+                            getPokemons(rnd, false)
+                        }
+                })
+        } else {
+            val rnd: Int
+            if(pokemonCount >= 30){
+                rnd = (0..pokemonCount-30).random()
+                getPokemons(rnd, false)
+            }
+        }
+        view.showUpdateProgress(true)
+    }
+
+    private fun getPokemons(pos: Int, addToList: Boolean){
         pokemonInteractor.getPokemons(pos.toString())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    if(pos == 0){
-                        view.setPokemons(it)
-                    } else {
+                    if(addToList){
                         view.addPokemons(it)
-                    }
+                    } else {
+                        view.setPokemons(it) }
                     view.showUpdateProgress(false)
                 },
                 {

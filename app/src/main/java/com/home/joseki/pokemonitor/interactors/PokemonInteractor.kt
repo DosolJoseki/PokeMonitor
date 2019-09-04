@@ -11,6 +11,8 @@ import javax.inject.Inject
 class PokemonInteractor @Inject constructor(
     val pokemonRepositoriy: IPokemonRepositoriy
 ): IPokemonInteractor {
+    override fun getPokemonCount(): Observable<Pokemons> = pokemonRepositoriy.getPokemonCount()
+
     override val onPokemonSelected: PublishSubject<Pokemon> = PublishSubject.create()
     override val onPokemonUpdating: PublishSubject<Boolean> = PublishSubject.create()
 

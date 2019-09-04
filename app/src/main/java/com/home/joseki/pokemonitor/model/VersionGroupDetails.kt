@@ -9,8 +9,4 @@ data class VersionGroupDetails(
     val versionGroup: VersionGroup? = null,
     @SerializedName("move_learn_method")
     val moveLearnMethod: MoveLearnMethod? = null
-) {
-    //override fun toString(): String {
-    //    return "ClassPojo [level_learned_at = $level_learned_at, version_group = $version_group, move_learn_method = $move_learn_method]"
-    //}
-}
+)

@@ -7,8 +7,4 @@ data class Moves(
     val versionGroupDetails: List<VersionGroupDetails>? = null,
     @SerializedName("move")
     val move: Move? = null
-) {
-    //override fun toString(): String {
-    //    return "ClassPojo [version_group_details = $version_group_details, move = $move]"
-    //}
-}
+)

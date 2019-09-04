@@ -9,8 +9,4 @@ data class Abilities(
     val ability: Ability? = null,
     @SerializedName("slot")
     val slot: String = ""
-) {
-    //override fun toString(): String {
-    //    return "ClassPojo [is_hidden = $is_hidden, ability = $ability, slot = $slot]"
-    //}
-}
+)

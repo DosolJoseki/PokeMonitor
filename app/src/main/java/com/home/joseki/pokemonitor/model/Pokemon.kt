@@ -38,8 +38,4 @@ data class Pokemon(
     @SerializedName("order")
     val order: String = ""
 
-) {
-    //override fun toString(): String {
-    //    return "ClassPojo [location_area_encounters = $location_area_encounters, types = $types, base_experience = $base_experience, held_items = $held_items, weight = $weight, is_default = $is_default, sprites = $sprites, abilities = $abilities, game_indices = $game_indices, species = $species, stats = $stats, moves = $moves, name = $name, id = $id, forms = $forms, height = $height, order = $order]"
-    //}
-}
+)

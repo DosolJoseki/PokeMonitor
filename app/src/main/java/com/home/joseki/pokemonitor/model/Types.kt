@@ -7,8 +7,4 @@ data class Types(
     val slot: String = "",
     @SerializedName("type")
     val type: Type? = null
-) {
-    //override fun toString(): String {
-    //    return "ClassPojo [slot = $slot, type = $type]"
-    //}
-}
+)

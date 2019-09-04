@@ -11,8 +11,4 @@ data class Pokemons(
     val count: String = "",
     @SerializedName("results")
     val results: List<Results>
-) {
-    //override fun toString(): String {
-    //    return "ClassPojo [next = $next, previous = $previous, count = $count, results = $results]"
-    //}
-}
+)

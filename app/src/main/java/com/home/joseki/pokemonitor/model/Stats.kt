@@ -9,8 +9,4 @@ data class Stats(
     val baseStat: String = "",
     @SerializedName("effort")
     val effort: String = ""
-) {
-    //override fun toString(): String {
-    //    return "ClassPojo [stat = $stat, base_stat = $base_stat, effort = $effort]"
-    //}
-}
+)

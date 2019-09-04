@@ -7,14 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.home.joseki.pokemonitor.PropertiesGetter
 import com.home.joseki.pokemonitor.R
-import com.home.joseki.pokemonitor.di.view.navigation.Screens
 import com.home.joseki.pokemonitor.model.Pokemon
-import com.home.joseki.pokemonitor.model.Stat
-import com.home.joseki.pokemonitor.model.Stats
-import com.home.joseki.pokemonitor.model.Types
 import com.squareup.picasso.Picasso
-import java.lang.StringBuilder
 
 class PokemonInfoFragment(
     val pokemon: Pokemon
@@ -23,7 +19,6 @@ class PokemonInfoFragment(
     companion object {
         @JvmStatic
         fun newInstance(pokemon: Pokemon) = PokemonInfoFragment(pokemon)
-        private const val STARTING_INDEX = 2
         private const val STAT_NAME_HP = "hp"
         private const val STAT_NAME_ATK = "attack"
         private const val STAT_NAME_DEF = "defense"
@@ -45,43 +40,11 @@ class PokemonInfoFragment(
         Picasso.get().load(pokemon.sprites!!.frontDefault).into(ivPokemonImage)
         tvPokemonHeight.text = pokemon.height
         tvPokemonWeight.text = pokemon.weight
-        tvPokemonType.text = getTypes(pokemon.types)
-        tvPokemonHp.text = getStat(STAT_NAME_HP, pokemon.stats)
-        tvPokemonAtk.text = getStat(STAT_NAME_ATK, pokemon.stats)
-        tvPokemonDef.text = getStat(STAT_NAME_DEF, pokemon.stats)
+        tvPokemonType.text = PropertiesGetter.getTypes(pokemon.types)
+        tvPokemonHp.text = PropertiesGetter.getStat(STAT_NAME_HP, pokemon.stats)
+        tvPokemonAtk.text = PropertiesGetter.getStat(STAT_NAME_ATK, pokemon.stats)
+        tvPokemonDef.text = PropertiesGetter.getStat(STAT_NAME_DEF, pokemon.stats)
 
         return view
-    }
-
-    private fun getTypes(listtypes: List<Types>?): String {
-        if (listtypes == null) {
-            return ""
-        }
-
-        val stringBuilder = StringBuilder()
-
-        for (types: Types in listtypes) {
-            types.type?.let {
-                stringBuilder.append(", ")
-                stringBuilder.append (it.name)
-            }
-        }
-
-        return stringBuilder.toString().substring(STARTING_INDEX)
-    }
-
-    private fun getStat(statName: String, statList: List<Stats>?): String {
-        if (statList == null) {
-            return ""
-        }
-
-        for(stat: Stats in statList){
-            stat.stat?.let {
-                if (stat.stat.name == statName)
-                    return stat.baseStat
-            }
-        }
-
-        return ""
     }
 }

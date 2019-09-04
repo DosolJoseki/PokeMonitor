@@ -7,8 +7,4 @@ data class Forms(
     val name: String = "",
     @SerializedName("url")
     val url: String = ""
-) {
-    //override fun toString(): String {
-    //    return "ClassPojo [name = $name, url = $url]"
-    //}
-}
+)
