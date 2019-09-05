@@ -104,7 +104,7 @@ class PokemonListAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
                 compareBy {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats).toInt()}).asReversed())
         } else if(needDefCheck){
             items = ArrayList(items.sortedWith(
-                compareBy {PropertiesGetter.getStat("defense", it.stats).toInt()}))
+                compareBy {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats).toInt()}))
         } else {
             items.clear()
             items.addAll(itemsDefault)

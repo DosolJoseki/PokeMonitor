@@ -16,13 +16,10 @@ class App: MultiDexApplication() {
 
         if (BuildConfig.DEBUG) {
             Toothpick.setConfiguration(Configuration.forDevelopment())
+            Timber.plant(Timber.DebugTree())
         }
         val appScope: Scope = Toothpick.openScope(Scopes.APP)
         appScope.installModules(AppModule(this), ApiModule(), ProviderModule(), RepositoryModule(), NavigationModule())
-
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
     }
 
     override fun attachBaseContext(base: Context) {
