@@ -43,9 +43,9 @@ class PokemonInfoFragment(
         tvPokemonHeight.text = pokemon.height
         tvPokemonWeight.text = pokemon.weight
         tvPokemonType.text = PropertiesGetter.getTypes(pokemon.types)
-        tvPokemonHp.text = PropertiesGetter.getStat(STAT_NAME_HP, pokemon.stats)
-        tvPokemonAtk.text = PropertiesGetter.getStat(STAT_NAME_ATK, pokemon.stats)
-        tvPokemonDef.text = PropertiesGetter.getStat(STAT_NAME_DEF, pokemon.stats)
+        tvPokemonHp.text = PropertiesGetter.getStat(STAT_NAME_HP, pokemon.stats).toString()
+        tvPokemonAtk.text = PropertiesGetter.getStat(STAT_NAME_ATK, pokemon.stats).toString()
+        tvPokemonDef.text = PropertiesGetter.getStat(STAT_NAME_DEF, pokemon.stats).toString()
 
         return view
     }

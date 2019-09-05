@@ -30,7 +30,7 @@ data class Pokemon(
     @SerializedName("name")
     val name: String = "",
     @SerializedName("id")
-    val id: String = "",
+    val id: Int = 0,
     @SerializedName("forms")
     val forms: List<Forms>? = null,
     @SerializedName("height")

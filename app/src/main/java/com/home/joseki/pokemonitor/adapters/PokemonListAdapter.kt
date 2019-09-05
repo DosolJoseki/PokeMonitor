@@ -74,43 +74,43 @@ class PokemonListAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
             needHPCheck and needAtkCheck and needDefCheck  -> {
                 items = ArrayList(items.sortedWith(
                     compareBy(
-                        {PropertiesGetter.getStat(STAT_NAME_HP, it.stats).toInt()},
-                        {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats).toInt()},
-                        {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats).toInt()})).asReversed())
+                        {PropertiesGetter.getStat(STAT_NAME_HP, it.stats)},
+                        {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats)},
+                        {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats)})).asReversed())
             }
             needHPCheck and needAtkCheck -> {
                 items = ArrayList(items.sortedWith(
                     compareBy(
-                        {PropertiesGetter.getStat(STAT_NAME_HP, it.stats).toInt()},
-                        {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats).toInt()})).asReversed())
+                        {PropertiesGetter.getStat(STAT_NAME_HP, it.stats)},
+                        {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats)})).asReversed())
             }
             needHPCheck and needDefCheck -> {
                 items = ArrayList(items.sortedWith(
                     compareBy(
-                        {PropertiesGetter.getStat(STAT_NAME_HP, it.stats).toInt()},
-                        {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats).toInt()})).asReversed())
+                        {PropertiesGetter.getStat(STAT_NAME_HP, it.stats)},
+                        {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats)})).asReversed())
             }
             needAtkCheck and needDefCheck -> {
                 items = ArrayList(items.sortedWith(
                     compareBy(
-                        {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats).toInt()},
-                        {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats).toInt()})).asReversed())
+                        {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats)},
+                        {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats)})).asReversed())
             }
             needHPCheck -> {
                 items = ArrayList(items.sortedWith(
-                    compareBy {PropertiesGetter.getStat(STAT_NAME_HP, it.stats).toInt()}).asReversed())
+                    compareBy {PropertiesGetter.getStat(STAT_NAME_HP, it.stats)}).asReversed())
             }
             needAtkCheck -> {
                 items = ArrayList(items.sortedWith(
-                    compareBy {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats).toInt()}).asReversed())
+                    compareBy {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats)}).asReversed())
             }
             needDefCheck -> {
                 items = ArrayList(items.sortedWith(
-                    compareBy {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats).toInt()}).asReversed())
+                    compareBy {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats)}).asReversed())
             }
             else -> {
                 items = ArrayList(items.sortedWith(
-                    compareBy{it.id.toInt()}
+                    compareBy{it.id}
                 ))
             }
         }

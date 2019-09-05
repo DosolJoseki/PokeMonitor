@@ -4,12 +4,12 @@ import com.home.joseki.pokemonitor.model.Stats
 import com.home.joseki.pokemonitor.model.Types
 
 object PropertiesGetter {
-    fun getStat(statName: String, statList: List<Stats>?): String {
+    fun getStat(statName: String, statList: List<Stats>?): Int {
         return statList
             ?.map { it }
             ?.firstOrNull { it.stat?.name == statName }
             ?.baseStat
-            ?:""
+            ?:0
     }
 
     fun getTypes(listtypes: List<Types>?): String {

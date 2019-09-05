@@ -6,7 +6,7 @@ data class Stats(
     @SerializedName("stat")
     val stat: Stat? = null,
     @SerializedName("base_stat")
-    val baseStat: String = "",
+    val baseStat: Int = 0,
     @SerializedName("effort")
     val effort: String = ""
 )
