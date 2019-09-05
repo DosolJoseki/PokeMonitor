@@ -1,17 +1,16 @@
-package com.home.joseki.pokemonitor.di.view.fragments.main
+package com.home.joseki.pokemonitor.fragments.main
 
-import com.home.joseki.pokemonitor.di.view.navigation.Screens
+import com.home.joseki.pokemonitor.di.navigation.Screens
 import com.home.joseki.pokemonitor.interactors.IPokemonInteractor
 import com.home.joseki.pokemonitor.model.Pokemon
 import io.reactivex.android.schedulers.AndroidSchedulers
 import ru.terrakok.cicerone.Router
 import timber.log.Timber
-import javax.inject.Inject
 import io.reactivex.disposables.CompositeDisposable
 
 
 
-class MainFragmentPresenter @Inject constructor(
+class MainFragmentPresenter(
     val view: MainFragment,
     private val router: Router,
     private val pokemonInteractor: IPokemonInteractor
@@ -20,11 +19,11 @@ class MainFragmentPresenter @Inject constructor(
         private const val ITEMS_PER_SHEET = 30
     }
     private var offset = 0
-    private var pokemonCount = 0
-    var compositeDisposable = CompositeDisposable()
+    private var compositeDisposable = CompositeDisposable()
 
-    fun initiate(){
-        getPokemons(offset, false)
+    init {
+        if(view.pokemonAdapter.itemCount == 0)
+            getPokemons(offset, false)
     }
 
     fun onPokemonSelected(pokemon: Pokemon){
@@ -42,26 +41,10 @@ class MainFragmentPresenter @Inject constructor(
     }
 
     fun onButtonClick(){
-        if(pokemonCount == 0){
-            compositeDisposable.add(
-            pokemonInteractor.getPokemonCount()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    val rnd: Int
-                    pokemonCount = it.count.toInt()
-                    if(pokemonCount >= 30){
-                        rnd = (0..pokemonCount-30).random()
-                        getPokemons(rnd, false)
-                    }
-                })
-        } else {
-            val rnd: Int
-            if(pokemonCount >= 30){
-                rnd = (0..pokemonCount-30).random()
-                getPokemons(rnd, false)
-            }
+        if(pokemonInteractor.getPokemonCount() >= 30){
+            getPokemons((0..pokemonInteractor.getPokemonCount() - 30).random(), false)
+            view.showUpdateProgress(true)
         }
-        view.showUpdateProgress(true)
     }
 
     private fun getPokemons(pos: Int, addToList: Boolean){

@@ -3,7 +3,7 @@ package com.home.joseki.pokemonitor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.home.joseki.pokemonitor.di.Scopes
-import com.home.joseki.pokemonitor.di.view.navigation.MainRouter
+import com.home.joseki.pokemonitor.di.navigation.MainRouter
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.android.support.SupportAppNavigator

@@ -3,19 +3,14 @@ package com.home.joseki.pokemonitor.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.home.joseki.pokemonitor.PropertiesGetter
 import com.home.joseki.pokemonitor.R
 import com.home.joseki.pokemonitor.model.Pokemon
 import com.squareup.picasso.Picasso
 import com.home.joseki.pokemonitor.adapters.PokemonListAdapter.PokemonViewHolder
-import com.home.joseki.pokemonitor.comparators.PokemonAtkComparator
-import com.home.joseki.pokemonitor.comparators.PokemonDefComparator
-import com.home.joseki.pokemonitor.comparators.PokemonHpComparator
 import io.reactivex.subjects.PublishSubject
-import java.util.*
+import kotlinx.android.synthetic.main.list_item_pokemon.view.*
 import kotlin.collections.ArrayList
 
 
@@ -27,6 +22,12 @@ class PokemonListAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
     var needDefCheck: Boolean = false
 
     val itemClickListener: PublishSubject<Pokemon> = PublishSubject.create()
+
+    companion object {
+        private const val STAT_NAME_ATK = "attack"
+        private const val STAT_NAME_DEF = "defense"
+        private const val STAT_NAME_HP = "hp"
+    }
 
     fun notifyPokeItems(){
         sort()
@@ -59,29 +60,52 @@ class PokemonListAdapter: RecyclerView.Adapter<PokemonViewHolder>() {
         fun bind(pokemon: Pokemon){
             itemView.setOnClickListener { itemClickListener.onNext(pokemon) }
 
-            val pokemonName = itemView.findViewById<TextView>(R.id.tvPokemonName)
-            val pokemonType = itemView.findViewById<TextView>(R.id.tvPokemonType)
-            val pokemonPicture = itemView.findViewById<ImageView>(R.id.ivPokemonImage)
+            val pokemonName = itemView.tvPokemonName
+            val pokemonType = itemView.tvPokemonType
+            val pokemonPicture = itemView.ivPokemonImage
 
             pokemonName.text = pokemon.name
             pokemonType.text = PropertiesGetter.getTypes(pokemon.types)
-            Picasso.get().load(pokemon.sprites!!.frontDefault).into(pokemonPicture)
+            pokemon.sprites?.let {
+                Picasso.get().load(it.frontDefault).into(pokemonPicture)
+            }
         }
     }
 
     override fun getItemCount(): Int = items.size
 
     private fun sort(){
-        if(needHPCheck){
-            Collections.sort(items, PokemonHpComparator())
-        }
-        if(needAtkCheck){
-            Collections.sort(items, PokemonAtkComparator())
-        }
-        if(needDefCheck){
-            Collections.sort(items, PokemonDefComparator())
-        }
-        if(!needHPCheck and !needAtkCheck and !needDefCheck){
+        if(needHPCheck and needAtkCheck and needDefCheck){
+            items = ArrayList(items.sortedWith(
+                compareBy(
+                    {PropertiesGetter.getStat(STAT_NAME_HP, it.stats).toInt()},
+                    {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats).toInt()},
+                    {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats).toInt()})).asReversed())
+        } else if(needHPCheck and needAtkCheck){
+            items = ArrayList(items.sortedWith(
+                compareBy(
+                    {PropertiesGetter.getStat(STAT_NAME_HP, it.stats).toInt()},
+                    {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats).toInt()})).asReversed())
+        } else if(needHPCheck and needDefCheck){
+            items = ArrayList(items.sortedWith(
+                compareBy(
+                    {PropertiesGetter.getStat(STAT_NAME_HP, it.stats).toInt()},
+                    {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats).toInt()})).asReversed())
+        } else if(needAtkCheck and needDefCheck){
+            items = ArrayList(items.sortedWith(
+                compareBy(
+                    {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats).toInt()},
+                    {PropertiesGetter.getStat(STAT_NAME_DEF, it.stats).toInt()})).asReversed())
+        } else if(needHPCheck){
+            items = ArrayList(items.sortedWith(
+                compareBy {PropertiesGetter.getStat(STAT_NAME_HP, it.stats).toInt()}).asReversed())
+        } else if(needAtkCheck){
+            items = ArrayList(items.sortedWith(
+                compareBy {PropertiesGetter.getStat(STAT_NAME_ATK, it.stats).toInt()}).asReversed())
+        } else if(needDefCheck){
+            items = ArrayList(items.sortedWith(
+                compareBy {PropertiesGetter.getStat("defense", it.stats).toInt()}))
+        } else {
             items.clear()
             items.addAll(itemsDefault)
         }

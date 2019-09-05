@@ -1,7 +1,7 @@
 package com.home.joseki.pokemonitor
 
-import com.home.joseki.pokemonitor.di.view.navigation.MainRouter
-import com.home.joseki.pokemonitor.di.view.navigation.Screens
+import com.home.joseki.pokemonitor.di.navigation.MainRouter
+import com.home.joseki.pokemonitor.di.navigation.Screens
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 

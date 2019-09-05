@@ -1,8 +1,8 @@
-package com.home.joseki.pokemonitor.di.view.navigation
+package com.home.joseki.pokemonitor.di.navigation
 
 import androidx.fragment.app.Fragment
-import com.home.joseki.pokemonitor.di.view.fragments.main.MainFragment
-import com.home.joseki.pokemonitor.di.view.fragments.pokemoninfo.PokemonInfoFragment
+import com.home.joseki.pokemonitor.fragments.main.MainFragment
+import com.home.joseki.pokemonitor.fragments.pokemoninfo.PokemonInfoFragment
 import com.home.joseki.pokemonitor.model.Pokemon
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 

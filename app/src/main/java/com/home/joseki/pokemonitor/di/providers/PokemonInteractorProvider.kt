@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class PokemonInteractorProvider @Inject constructor(
-    val pokemonRepositoriy: IPokemonRepositoriy
+    private val pokemonRepositoriy: IPokemonRepositoriy
 ): Provider<IPokemonInteractor> {
     override fun get(): IPokemonInteractor = PokemonInteractor(pokemonRepositoriy)
 }
